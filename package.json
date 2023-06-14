@@ -2,7 +2,7 @@
   "name": "devtrackr",
   "displayName": "devtrackr",
   "description": "Track and Document Your Weekly Work with devtrackr! Never Miss Recording Your Accomplishments and Create Impactful Resumes.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "publisher": "yashrajbasan",
   "engines": {
     "vscode": "^1.78.0"
