@@ -8,6 +8,9 @@ const {
 const fs = require("fs");
 const { showStatusMessage } = require("./utils");
 
+const commonGithubErrorMessage =
+  "Please ensure that your GitHub credentials are correct, reconfigure them if necessary, check your internet connection, and try again";
+
 class GithubIntegration {
   #username = "";
   #token = "";
@@ -47,6 +50,8 @@ class GithubIntegration {
           return resolve(data && data.status == 200 ? true : false);
         })
         .catch((error) => {
+          const errorMessage = `An error occurred while checking the repository. ${commonGithubErrorMessage}`;
+          vscode.window.showErrorMessage(errorMessage);
           // eslint-disable-next-line no-console
           console.error("Error in checkRepo", error);
           return resolve(false);
@@ -68,6 +73,8 @@ class GithubIntegration {
           resolve(true);
         })
         .catch((e) => {
+          const errorMessage = `An error occurred while creating the repository.${commonGithubErrorMessage}`;
+          vscode.window.showErrorMessage(errorMessage);
           // eslint-disable-next-line no-console
           console.error("Error in createRepo", e);
           return reject(e);
@@ -91,6 +98,8 @@ class GithubIntegration {
           return resolve({ ...response.data, existingContent });
         })
         .catch((err) => {
+          const errorMessage = `An error occurred while fetching the file content.${commonGithubErrorMessage}`;
+          vscode.window.showErrorMessage(errorMessage);
           // eslint-disable-next-line no-console
           console.error("Error in getFileContent", err);
           return resolve(false);
@@ -110,6 +119,8 @@ class GithubIntegration {
           return resolve(response.status === 200);
         })
         .catch((e) => {
+          const errorMessage = `An error occurred while checking the file existence.${commonGithubErrorMessage}`;
+          vscode.window.showErrorMessage(errorMessage);
           // eslint-disable-next-line no-console
           console.error("Error in checkFileExists", e);
           return resolve(false);
@@ -130,6 +141,8 @@ class GithubIntegration {
         }
       );
     } catch (error) {
+      const errorMessage = `An error occurred while creating the file.${commonGithubErrorMessage}`;
+      vscode.window.showErrorMessage(errorMessage);
       // eslint-disable-next-line no-console
       console.error("Error in createFile function", error);
       return null;
@@ -151,6 +164,8 @@ class GithubIntegration {
         }
       );
     } catch (error) {
+      const errorMessage = `An error occurred while appending content to the file.${commonGithubErrorMessage}`;
+      vscode.window.showErrorMessage(errorMessage);
       // eslint-disable-next-line no-console
       console.error("Error in appendToFile function", error);
       return null;
@@ -192,6 +207,10 @@ class GithubIntegration {
 
           if (createdFileRes && createdFileRes.data) {
             updatedFiles.created.push(projectName);
+          } else {
+            vscode.window.showErrorMessage(
+              `An error occurred while creating the file "${projectName}". ${commonGithubErrorMessage}`
+            );
           }
         }
         dataProviderInstance.fileChanged(projectName);
