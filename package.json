@@ -1,0 +1,124 @@
+{
+  "name": "devtrackr",
+  "displayName": "devtrackr",
+  "description": "Track and Document Your Weekly Work with devtrackr! Never Miss Recording Your Accomplishments and Create Impactful Resumes.",
+  "version": "1.0.0",
+  "publisher":"yashrajbasan",
+  "engines": {
+    "vscode": "^1.78.0"
+  },
+  "icon":"images/logo.png",
+  "permissions": [
+    "secrets"
+  ],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./src/index.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "devtrackr.addProject",
+        "title": "Add Project",
+        "icon":"$(file-add)"
+      },
+      {
+        "command": "devtrackr.refreshEntry",
+        "title": "Refresh",
+        "icon": "$(extensions-refresh)"
+      },
+      {
+        "command": "devtrackr.save",
+        "title": "Save",
+        "icon":"$(save)"
+      },
+      {
+        "command": "devtrackr.storeGithubToken",
+        "title": "Github Config"
+      },
+      {
+        "command": "devtrackr.deleteProject",
+        "title": "Delete"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "devtrackr",
+          "title": "devtrackr",
+          "icon": "./images/activitybar-logo.png"
+        }
+      ]
+    },
+    "views": {
+      "devtrackr": [
+        {
+          "id": "devtrackr",
+          "name": "",
+          "icon": "./images/activitybar-logo.png"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "devtrackr.storeGithubToken",
+          "when": "view == devtrackr",
+          "group": "navigation"
+        },
+        {
+          "command": "devtrackr.save",
+          "when": "view == devtrackr",
+          "group": "navigation"
+        },
+        {
+          "command": "devtrackr.addProject",
+          "when": "view == devtrackr",
+          "group": "navigation"
+        },
+        {
+          "command": "devtrackr.refreshEntry",
+          "when": "view == devtrackr",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "devtrackr.deleteProject",
+          "when": "view == devtrackr && viewItem == dependency"
+        }
+      ]
+    },
+    "secrets": {
+      "DEVTRACKR_GITHUB_USERNAME": "username of github account",
+      "DEVTRACKR_GITHUB_TOKEN": "secret token of user github account"
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "vscode:uninstall": "node ./src/scripts/removeFile.js",
+    "esbuild-base": "esbuild ./src/index.js --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.0.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.78.0",
+    "@vscode/test-electron": "^2.2.0",
+    "esbuild": "^0.17.19",
+    "eslint": "^8.28.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.1.0",
+    "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "@octokit/rest": "^19.0.11"
+  }
+}
