@@ -40,7 +40,7 @@ To generate a personal token with the necessary permissions, please visit [Creat
 ## About Developer
 
 - [website](https://yashrajb.github.io)
-- [blog] (https://basanyash627.medium.com)
+- [blog](https://medium.com/@basanyash627)
 - [github](https://github.com/yashrajb)
 - [twitter](https://twitter.com/yashrajbasan2)
 - [instagram](https://www.instagram.com/yashraj.dev/)
