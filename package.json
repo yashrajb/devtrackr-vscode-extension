@@ -1,7 +1,7 @@
 {
   "name": "devtrackr",
   "displayName": "devtrackr",
-  "description": "Track and Document Your Weekly Work with devtrackr! Never Miss Recording Your Accomplishments and Create Impactful Resumes.",
+  "description": "Track and Document Your Weekly Work with devtrackr!",
   "version": "1.2.0",
   "publisher": "yashrajbasan",
   "engines": {
@@ -37,7 +37,8 @@
       },
       {
         "command": "devtrackr.storeGithubToken",
-        "title": "Github Config"
+        "title": "Github Authentication",
+        "icon":"$(github)"
       },
       {
         "command": "devtrackr.deleteProject",
