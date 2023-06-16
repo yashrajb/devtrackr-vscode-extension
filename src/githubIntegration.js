@@ -1,5 +1,7 @@
 const vscode = require("vscode");
 const { Octokit } = require("@octokit/rest");
+const { throttling } = require("@octokit/plugin-throttling");
+const ThrottleOctokit = Octokit.plugin(throttling);
 const {
   DEVTRACKR_GITHUB_TOKEN,
   DEVTRACKR_GITHUB_USERNAME,
@@ -24,8 +26,22 @@ class GithubIntegration {
   async setCredentials() {
     this.#username = await this.context.secrets.get(DEVTRACKR_GITHUB_USERNAME);
     this.#token = await this.context.secrets.get(DEVTRACKR_GITHUB_TOKEN);
-    this.#octokit = new Octokit({
+    this.#octokit = new ThrottleOctokit({
       auth: this.#token,
+      throttle: {
+        onRateLimit: (retryAfter, options) => {
+          vscode.window.showErrorMessage(
+            `GitHub rate limit exceeded. Please try again later.`
+          );
+          return;
+        },
+        onSecondaryRateLimit: (retryAfter, options, octokit) => {
+          vscode.window.showErrorMessage(
+            `GitHub rate limit exceeded. Please try again later.`
+          );
+          return;
+        },
+      },
     });
   }
   async setSecrets(username, token) {
