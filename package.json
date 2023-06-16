@@ -2,7 +2,7 @@
   "name": "devtrackr",
   "displayName": "devtrackr",
   "description": "Track and Document Your Weekly Work with devtrackr!",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "publisher": "yashrajbasan",
   "engines": {
     "vscode": "^1.78.0"
