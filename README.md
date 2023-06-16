@@ -20,6 +20,8 @@ https://basanyash627.medium.com/introducing-devtrackr-effortlessly-document-your
 
 - Save and Sync: Once you complete your updates, simply click "Save" within the web view panel, and DevTrackr will automatically save and sync your records to your private repository.
 
+- No Tracking: DevTrackr respects your privacy and does not track or collect any of your data.
+
 ## Requirements
 
 - Visual Studio Code version 1.78.0 or later.
