@@ -10,12 +10,6 @@ class DataProvider {
     this.projects = this.getFilesFromDirectory() || {};
     this._onDidChangeTreeData = new vscode.EventEmitter();
     this.onDidChangeTreeData = this._onDidChangeTreeData.event;
-    this.projectChanged = {};
-
-    vscode.workspace.onDidChangeTextDocument((event) => {
-      let fileName = path.basename(event.document.fileName);
-      this.fileChanged(fileName, "add");
-    });
   }
 
   getDataFilePath() {
@@ -76,14 +70,6 @@ class DataProvider {
     }
 
     this._onDidChangeTreeData.fire();
-  }
-
-  fileChanged(name, event = "") {
-    if (event == "add") {
-      this.projectChanged[name] = event === "add";
-    } else {
-      delete this.projectChanged[name];
-    }
   }
 
   async addProject(name) {

@@ -193,7 +193,6 @@ class GithubIntegration {
       return;
     }
     const projects = dataProviderInstance.projects;
-    const projectChanged = dataProviderInstance.projectChanged;
 
     const statusMessage = showStatusMessage(
       "$(loading~spin) Please wait. Saving changes to your GitHub repository..."
@@ -206,7 +205,7 @@ class GithubIntegration {
     for (const project of Object.keys(projects)) {
       const projectName = `${project}.txt`;
       const filePath = `${dataProviderInstance.dirPath}/${projectName}`;
-      if (projectChanged[projectName]) {
+      if (fs.existsSync(filePath)) {
         const content = fs.readFileSync(filePath, "utf-8");
         const fileExists = await this.checkFileExists(projectName);
 
@@ -229,7 +228,6 @@ class GithubIntegration {
             );
           }
         }
-        dataProviderInstance.fileChanged(projectName);
       }
     }
 
