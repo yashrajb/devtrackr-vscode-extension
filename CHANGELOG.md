@@ -19,3 +19,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Added
 
 - Added error message in githubIntegration class
+
+## [1.7.0]
+
+### Fixed
+
+- integrate markdown file [feedback from user]
+- handling error message if credentials are invalid
+- close text editor if user delete project file
