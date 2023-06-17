@@ -45,7 +45,7 @@ class DataProvider {
 
   async openProject(project) {
     const projectName = project.name;
-    const pathFile = `${this.dirPath}/${projectName}.txt`;
+    const pathFile = `${this.dirPath}/${projectName}.md`;
 
     // Check if the project file is already open in an editor
     const openEditor = vscode.window.visibleTextEditors.find(
@@ -80,7 +80,7 @@ class DataProvider {
       return;
     }
 
-    const filePath = `${this.dirPath}/${name}.txt`;
+    const filePath = `${this.dirPath}/${name}.md`;
     fs.writeFileSync(filePath, "");
 
     this.projects[name] = {
@@ -91,8 +91,14 @@ class DataProvider {
   }
 
   async deleteProject(name) {
-    let filePath = `${this.dirPath}/${name}.txt`;
+    let filePath = `${this.dirPath}/${name}.md`;
     fs.unlinkSync(filePath);
+    const activeEditor = vscode.window.activeTextEditor;
+    if (activeEditor && activeEditor.document.fileName === filePath) {
+      await vscode.commands.executeCommand(
+        "workbench.action.closeActiveEditor"
+      );
+    }
     delete this.projects[name];
     this.refresh();
   }

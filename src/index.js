@@ -24,6 +24,7 @@ async function activate(context) {
         "devtrackr.refreshEntry",
         async function () {
           dataProvider.refresh();
+          vscode.commands.executeCommand("workbench.action.reloadExtension");
         }
       )
     );
@@ -50,9 +51,6 @@ async function activate(context) {
         return vscode.window.showErrorMessage(
           `Please set your GitHub personal access token and username by clicking on "Github Config" Button`
         );
-      }
-      if (!(await githubProvider.checkRepo())) {
-        await githubProvider.createRepo();
       }
 
       await githubProvider.processProjects(dataProvider);

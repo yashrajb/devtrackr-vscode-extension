@@ -56,23 +56,22 @@ class GithubIntegration {
   }
 
   async checkRepo() {
-    return new Promise(async (resolve) => {
-      return await this.#octokit.rest.repos
-        .get({
-          owner: this.#username,
-          repo: REPO_NAME,
-        })
-        .then((data) => {
-          return resolve(data && data.status == 200 ? true : false);
-        })
-        .catch((error) => {
-          const errorMessage = `An error occurred while checking the repository. ${commonGithubErrorMessage}`;
-          vscode.window.showErrorMessage(errorMessage);
-          // eslint-disable-next-line no-console
-          console.error("Error in checkRepo", error);
-          return resolve(false);
-        });
-    });
+    try {
+      let { status } = await this.#octokit.rest.repos.get({
+        owner: this.#username,
+        repo: REPO_NAME,
+      });
+      return status;
+    } catch (e) {
+      if (e?.response?.status != 404) {
+        // eslint-disable-next-line no-console
+        console.log("Error in checkAndCreateRepo function", e);
+        const errorMessage = `An error occurred while checking the repository. ${commonGithubErrorMessage}`;
+        vscode.window.showErrorMessage(errorMessage);
+      }
+
+      return e?.response?.status;
+    }
   }
 
   async createRepo() {
@@ -135,8 +134,10 @@ class GithubIntegration {
           return resolve(response.status === 200);
         })
         .catch((e) => {
-          const errorMessage = `An error occurred while checking the file existence.${commonGithubErrorMessage}`;
-          vscode.window.showErrorMessage(errorMessage);
+          if (e.response.status != 404) {
+            const errorMessage = `An error occurred while checking the file existence.${commonGithubErrorMessage}`;
+            vscode.window.showErrorMessage(errorMessage);
+          }
           // eslint-disable-next-line no-console
           console.error("Error in checkFileExists", e);
           return resolve(false);
@@ -192,6 +193,16 @@ class GithubIntegration {
     if (this.isProcessStarted) {
       return;
     }
+
+    let checkRepoResponse = await this.checkRepo();
+    if (checkRepoResponse == 401) {
+      return;
+    }
+
+    if (checkRepoResponse == 404) {
+      await this.createRepo();
+    }
+
     const projects = dataProviderInstance.projects;
 
     const statusMessage = showStatusMessage(
@@ -203,7 +214,7 @@ class GithubIntegration {
     };
     const repoUrl = `https://github.com/${this.#username}/${REPO_NAME}`;
     for (const project of Object.keys(projects)) {
-      const projectName = `${project}.txt`;
+      const projectName = `${project}.md`;
       const filePath = `${dataProviderInstance.dirPath}/${projectName}`;
       if (fs.existsSync(filePath)) {
         const content = fs.readFileSync(filePath, "utf-8");
