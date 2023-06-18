@@ -4,7 +4,9 @@ Effortlessly document your weekly work with this extension.Say goodbye to the ha
 
 ## Demo Video
 
-[![Devtrackr](https://img.youtube.com/vi/U-rP7Ryb9_s/0.jpg)](https://www.youtube.com/watch?v=U-rP7Ryb9_s&t=7s&ab_channel=Yashrajbasan)
+https://www.youtube.com/watch?v=PxAdWk3Yc2Q&ab_channel=Yashrajbasan
+
+[![Devtrackr](https://img.youtube.com/vi/PxAdWk3Yc2Q/0.jpg)](https://www.youtube.com/watch?v=PxAdWk3Yc2Q&ab_channel=Yashrajbasan)
 
 ## Story behind extension
 
