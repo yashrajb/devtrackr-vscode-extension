@@ -14,7 +14,7 @@
     "vscode-extension",
     "developer-productivity"
   ],
-  "version": "1.9.0",
+  "version": "1.10.0",
   "publisher": "yashrajbasan",
   "engines": {
     "vscode": "^1.78.0"
