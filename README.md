@@ -39,7 +39,7 @@ To generate a personal token with the necessary permissions, please visit [Creat
 
 ## Known Issues
 
-- Deleting the "data.json" file manually from the file system while the VSCode extension is running may cause the extension to continue displaying projects and their associated data. This occurs because the extension loads the data during startup, and the deletion may not immediately take effect until you reopen VSCode. Please note that restarting VSCode after deleting the "data.json" file will resolve this issue.
+- Deleting the file manually from the file system while the VSCode extension is running may cause the extension to continue displaying projects and their associated data. This occurs because the extension loads the data during startup, and the deletion may not immediately take effect until you reopen VSCode. Please note that restarting VSCode after deleting the file will resolve this issue.
 
 ## About Developer
 
