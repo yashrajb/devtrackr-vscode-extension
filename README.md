@@ -54,16 +54,18 @@ To generate a personal token with the necessary permissions, please visit [Creat
 
 If something doesn’t work, please [file an issue](https://github.com/yashrajb/devtrackr-vscode-extension/issues/new).
 
-## Branches and contributions
+## Contribute
 
 As this project is intended to be open source and free for everyone to use, feel free to contribute improvements.
 
-If something can be improved, just create a branch from `main` and make a Pull Request with the suggestions.
-
+If something can be improved, follow the steps:
+- Fork the repository
+- Make the changes
+- Create a Pull Request with the suggestions
 
 ## Contributors
 
-Meet the talented individuals who have contributed to Solace.js:  
+Meet the talented individuals who have contributed:  
 
 
 <a href="https://github.com/yashrajb/devtrackr-vscode-extension/graphs/contributors">
