@@ -3,6 +3,7 @@ const os = require("os");
 const path = require("path");
 const fs = require("fs");
 const { OS_PATHS } = require("./constants");
+const { executeCommand } = require("./commands");
 
 class DataProvider {
   constructor() {
@@ -95,9 +96,7 @@ class DataProvider {
     fs.unlinkSync(filePath);
     const activeEditor = vscode.window.activeTextEditor;
     if (activeEditor && activeEditor.document.fileName === filePath) {
-      await vscode.commands.executeCommand(
-        "workbench.action.closeActiveEditor"
-      );
+      await executeCommand("workbench.action.closeActiveEditor");
     }
     delete this.projects[name];
     this.refresh();
