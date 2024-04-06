@@ -29,13 +29,13 @@ class GithubIntegration {
     this.#octokit = new ThrottleOctokit({
       auth: this.#token,
       throttle: {
-        onRateLimit: (retryAfter, options) => {
+        onRateLimit: () => {
           vscode.window.showErrorMessage(
             `GitHub rate limit exceeded. Please try again later.`
           );
           return;
         },
-        onSecondaryRateLimit: (retryAfter, options, octokit) => {
+        onSecondaryRateLimit: () => {
           vscode.window.showErrorMessage(
             `GitHub rate limit exceeded. Please try again later.`
           );

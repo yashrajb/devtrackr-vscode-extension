@@ -1,12 +1,11 @@
 const vscode = require("vscode");
-const { REMINDER_TIME } = require("./constants");
+const { REMINDER_TIME, SCHEDULED_DAYS } = require("./constants");
 
-const DAYS = 6;
 function getScheduleTime(date) {
   return new Date(
     date.getFullYear(),
     date.getMonth(),
-    date.getDate() + DAYS,
+    date.getDate() + SCHEDULED_DAYS,
     12,
     0,
     0,

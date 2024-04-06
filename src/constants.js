@@ -6,6 +6,7 @@ const DEVTRACKR_GITHUB_USERNAME = "__devtrackrGithubUsername";
 const REPO_NAME = "devtrackr-data";
 const CHECK_NOTIFICATION_FREQUENCY = 30 * 60 * 1000;
 const REMINDER_TIME = "__devtrackrReminderTime";
+const SCHEDULED_DAYS = 6;
 
 const OS_PATHS = {
   win32: path.join(os.homedir(), "AppData", "Local", ".devtrackr"),
@@ -25,4 +26,5 @@ module.exports = {
   REMINDER_TIME,
   CHECK_NOTIFICATION_FREQUENCY,
   OS_PATHS,
+  SCHEDULED_DAYS,
 };
