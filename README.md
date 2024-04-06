@@ -49,3 +49,25 @@ To generate a personal token with the necessary permissions, please visit [Creat
 - [twitter](https://twitter.com/yashrajbasan2)
 - [instagram](https://www.instagram.com/yashraj.dev/)
 - [linkedin](https://www.linkedin.com/in/yashraj-basan-11b915157/)
+
+## Issues
+
+If something doesn’t work, please [file an issue](https://github.com/yashrajb/devtrackr-vscode-extension/issues/new).
+
+## Contribute
+
+As this project is intended to be open source and free for everyone to use, feel free to contribute improvements.
+
+If something can be improved, follow the steps:
+- Fork the repository
+- Make the changes
+- Create a Pull Request with the suggestions
+
+## Contributors
+
+Meet the talented individuals who have contributed:  
+
+
+<a href="https://github.com/yashrajb/devtrackr-vscode-extension/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=yashrajb/devtrackr-vscode-extension" />
+</a>
