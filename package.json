@@ -117,7 +117,8 @@
     "vscode:uninstall": "node ./src/scripts/removeFile.js",
     "esbuild-base": "esbuild ./src/index.js --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base -- --sourcemap",
-    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch"
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "deploy": "echo 'published...'"
   },
   "devDependencies": {
     "@types/glob": "^8.0.0",
@@ -125,6 +126,7 @@
     "@types/node": "16.x",
     "@types/vscode": "^1.78.0",
     "@vscode/test-electron": "^2.2.0",
+    "@vscode/vsce": "^2.31.1",
     "esbuild": "^0.17.19",
     "eslint": "^8.28.0",
     "glob": "^8.0.3",

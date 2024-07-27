@@ -1,0 +1,27 @@
+name: "Publish extension"
+on:
+  push:
+    branches:
+      - ci/cd
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+      - name: Installing Dependencies
+        run: npm install
+      - name: Installing Dev Dependencies
+        run: npm install -D
+      - name: publish
+        run: npm run deploy
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
