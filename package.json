@@ -118,7 +118,7 @@
     "esbuild-base": "esbuild ./src/index.js --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
-    "deploy": "echo 'published...'"
+    "deploy": "vsce publish minor"
   },
   "devDependencies": {
     "@types/glob": "^8.0.0",
