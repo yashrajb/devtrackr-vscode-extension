@@ -28,7 +28,13 @@ jobs:
         run: git stash --include-untracked
 
       - name: Minor version
-        run: npm version minor
+        run: |
+            export GIT_USER=${{secrets.GIT_USER}}
+            git config --global user.name "$GIT_USER"
+            git config --global user.email "basanyash627@gmail.com"
+            npm version minor 
+        env:
+            CI: true
 
       - name: Pop Stash
         run: git stash pop
