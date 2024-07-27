@@ -21,7 +21,11 @@ jobs:
         run: npm install
       - name: Installing Dev Dependencies
         run: npm install -D
-      - name: publish
-        run: npm run deploy
+      - name: Verify VSCE_PAT
+        run: vsce verify-pat
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
+    #   - name: publish
+    #     run: npm run deploy
+    #     env:
+    #       VSCE_PAT: ${{ secrets.VSCE_PAT }}
