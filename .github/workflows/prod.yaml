@@ -24,7 +24,7 @@ jobs:
       - name: Installing vsce
         run: npm i -g @vscode/vsce --save
       - name: Minor version
-        run: npm version number
+        run: npm version minor
       - name: publish
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
