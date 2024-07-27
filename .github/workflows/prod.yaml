@@ -24,7 +24,7 @@ jobs:
       - name: Installing vsce
         run: npm i -g @vscode/vsce --save
       - name: Echo VSCE_PAT
-        run: echo "VSCE_PAT is $VSCE_PAT"
+        run: echo "VSCE_PAT iss $VSCE_PAT"
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
     #   - name: publish
