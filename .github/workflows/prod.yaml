@@ -17,19 +17,25 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18.x
+
+      - name: Installing Dependencies
+        run: npm install
+
+      - name: Installing Dev Dependencies
+        run: npm install -D
+
+      - name: Stash changes due npm version minor
+        run: git stash --include-untracked
+
       - name: Minor version
         env:
           CI: true
         run: |
-          export GIT_USER=${{secrets.GIT_USER}}
           git config --global user.name "yashrajb"
           git config --global user.email "basanyash627@gmail.com"
           npm version minor
-
-      - name: Installing Dependencies
-        run: npm install
-      - name: Installing Dev Dependencies
-        run: npm install -D
+      - name: Pop Stash
+        run: git stash pop
 
       - name: publish
         env:
