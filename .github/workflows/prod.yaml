@@ -22,7 +22,7 @@ jobs:
       - name: Installing Dev Dependencies
         run: npm install -D
       - name: Installing vsce
-        run: npm i -g @vscode/vsce --save
+        run: npm i -g @vscode/vsce
 
       - name: Minor version
         env:
