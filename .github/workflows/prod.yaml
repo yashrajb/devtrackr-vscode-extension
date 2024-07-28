@@ -17,11 +17,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18.x
-      - name: Installing Dependencies
-        run: npm install
-      - name: Installing Dev Dependencies
-        run: npm install -D
-
       - name: Minor version
         env:
           CI: true
@@ -30,6 +25,11 @@ jobs:
           git config --global user.name "yashrajb"
           git config --global user.email "basanyash627@gmail.com"
           npm version minor
+
+      - name: Installing Dependencies
+        run: npm install
+      - name: Installing Dev Dependencies
+        run: npm install -D
 
       - name: publish
         env:
