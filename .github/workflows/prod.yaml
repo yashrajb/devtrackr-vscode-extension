@@ -32,7 +32,7 @@ jobs:
           CI: true
         run: |
           export GIT_USER=${{secrets.GIT_USER}}
-          git config --global user.name "$GIT_USER"
+          git config --global user.name "yashrajb"
           git config --global user.email "basanyash627@gmail.com"
           npm version minor
 
