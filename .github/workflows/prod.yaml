@@ -24,9 +24,6 @@ jobs:
       - name: Installing vsce
         run: npm i -g @vscode/vsce --save
 
-      - name: Stash changes due npm version minor
-        run: git stash --include-untracked
-
       - name: Minor version
         env:
           CI: true
@@ -35,9 +32,6 @@ jobs:
           git config --global user.name "yashrajb"
           git config --global user.email "basanyash627@gmail.com"
           npm version minor
-
-      - name: Pop Stash
-        run: git stash pop
 
       - name: publish
         env:
