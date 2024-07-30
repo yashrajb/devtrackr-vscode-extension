@@ -24,8 +24,6 @@ jobs:
       - name: Installing Dev Dependencies
         run: npm install -D
 
-      - name: Stash changes due npm version minor
-        run: git stash --include-untracked
 
       - name: Minor version
         env:
@@ -34,8 +32,7 @@ jobs:
           git config --global user.name "yashrajb"
           git config --global user.email "basanyash627@gmail.com"
           npm version minor
-      - name: Pop Stash
-        run: git stash pop
+     
 
       - name: publish
         env:
