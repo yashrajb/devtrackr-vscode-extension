@@ -3,8 +3,6 @@ const { Octokit } = require("@octokit/rest");
 const { throttling } = require("@octokit/plugin-throttling");
 const ThrottleOctokit = Octokit.plugin(throttling);
 const {
-  DEVTRACKR_GITHUB_TOKEN,
-  DEVTRACKR_GITHUB_USERNAME,
   REPO_NAME,
 } = require("./constants");
 const fs = require("fs");
@@ -23,38 +21,41 @@ class GithubIntegration {
     this.isProcessStarted = false;
   }
 
-  async setCredentials() {
-    this.#username = await this.context.secrets.get(DEVTRACKR_GITHUB_USERNAME);
-    this.#token = await this.context.secrets.get(DEVTRACKR_GITHUB_TOKEN);
-    this.#octokit = new ThrottleOctokit({
-      auth: this.#token,
-      throttle: {
-        onRateLimit: () => {
-          vscode.window.showErrorMessage(
-            `GitHub rate limit exceeded. Please try again later.`
-          );
-          return;
-        },
-        onSecondaryRateLimit: () => {
-          vscode.window.showErrorMessage(
-            `GitHub rate limit exceeded. Please try again later.`
-          );
-          return;
-        },
-      },
-    });
-  }
-  async setSecrets(username, token) {
-    await this.context.secrets.store(DEVTRACKR_GITHUB_TOKEN, token);
-    await this.context.secrets.store(DEVTRACKR_GITHUB_USERNAME, username);
-  }
-
-  async getSecrets() {
-    let username = await this.context.secrets.get(DEVTRACKR_GITHUB_USERNAME);
-    let token = await this.context.secrets.get(DEVTRACKR_GITHUB_TOKEN);
-    return username && token;
-  }
-
+    async authenticate() {
+      try {
+        const session = await vscode.authentication.getSession(
+          'github',
+          ['repo'],
+          { createIfNone: true }
+        );
+        
+        this.#octokit = new ThrottleOctokit({
+          auth: session.accessToken,
+          throttle: {
+            onRateLimit: () => {
+              vscode.window.showErrorMessage(
+                `GitHub rate limit exceeded. Please try again later.`
+              );
+              return;
+            },
+            onSecondaryRateLimit: () => {
+              vscode.window.showErrorMessage(
+                `GitHub rate limit exceeded. Please try again later.`
+              );
+              return;
+            },
+          },
+        });
+        const { data: user } = await this.#octokit.rest.users.getAuthenticated();
+        this.#username = user.login;
+  
+        return true;
+      } catch (error) {
+        vscode.window.showErrorMessage(`GitHub authentication failed: ${error.message}`);
+        return false;
+      }
+    }
+  
   async checkRepo() {
     try {
       let { status } = await this.#octokit.rest.repos.get({
@@ -214,7 +215,7 @@ class GithubIntegration {
     };
     const repoUrl = `https://github.com/${this.#username}/${REPO_NAME}`;
     for (const project of Object.keys(projects)) {
-      const projectName = `${project}.md`;
+      const projectName = `${project}`;
       const filePath = `${dataProviderInstance.dirPath}/${projectName}`;
       if (fs.existsSync(filePath)) {
         const content = fs.readFileSync(filePath, "utf-8");

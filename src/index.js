@@ -11,7 +11,7 @@ const { CHECK_NOTIFICATION_FREQUENCY } = require("./constants");
 async function activate(context) {
   try {
     const dataProvider = new DataProvider();
-
+    let isSaveProcessStarted = false;
     const githubProvider = new GithubIntegration(context);
 
     checkAndShowWeeklyNotification(context);
@@ -39,36 +39,48 @@ async function activate(context) {
     );
 
     vscode.commands.registerCommand("devtrackr.save", async () => {
-      await githubProvider.setCredentials();
+      try {
+        let isAuthenticated = await githubProvider.authenticate();
 
-      if (!Object.keys(dataProvider.projects).length) {
-        return vscode.window.showInformationMessage(
-          `Please add project then click on save button`
-        );
+        if (!Object.keys(dataProvider.projects).length) {
+          return vscode.window.showInformationMessage(
+            `Please add project then click on save button`
+          );
+        }
+  
+        if (!(isAuthenticated)) {
+          return vscode.window.showErrorMessage(
+            `GitHub authentication required to save projects`
+          );
+        }
+  
+        if(isSaveProcessStarted){
+          return vscode.window.showInformationMessage("Process is already started. please wait !!")
+        }
+
+        isSaveProcessStarted = true;
+  
+        await githubProvider.processProjects(dataProvider);
+        isSaveProcessStarted = false;
+      }catch(e){
+        isSaveProcessStarted = false;
       }
-
-      if (!(await githubProvider.getSecrets())) {
-        return vscode.window.showErrorMessage(
-          `Please set your GitHub personal access token and username by clicking on "Github Config" Button`
-        );
-      }
-
-      await githubProvider.processProjects(dataProvider);
+      
     });
 
     context.subscriptions.push(
       vscode.commands.registerCommand(
         "devtrackr.addProject",
         async function () {
-          const folderName = await vscode.window.showInputBox({
+          const fileName = await vscode.window.showInputBox({
             prompt: "Enter project name",
           });
 
-          if (!folderName) {
+          if (!fileName?.trim()) {
             return;
           }
 
-          await dataProvider.addProject(folderName);
+          await dataProvider.addProject(fileName?.trim());
         }
       )
     );
@@ -85,21 +97,19 @@ async function activate(context) {
       vscode.commands.registerCommand(
         "devtrackr.storeGithubToken",
         async () => {
-          const token = await vscode.window.showInputBox({
-            prompt: "Enter your GitHub personal access token",
-            password: true,
-          });
+          try {
+            const isAuthenticated = await githubProvider.authenticate();
 
-          const username = await vscode.window.showInputBox({
-            prompt: "Enter your username",
-          });
+            if(!isAuthenticated){
+              return vscode.window.showErrorMessage(
+                `GitHub authentication required to save projects`
+              );
+            }else {
+              return vscode.window.showInformationMessage("You already authenticated")
+            } 
 
-          if (username && token) {
-            await githubProvider.setSecrets(username, token);
-          } else {
-            vscode.window.showInformationMessage(
-              `Please don't leave it github username or token empty`
-            );
+          }catch(err){
+            return 
           }
         }
       )
